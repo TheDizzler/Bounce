@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root game="PsiCom Security" xml="AssetManifest" dir="assets/">
+
+	<gfx dir="gfx/">
+		
+	</gfx>
+
+
+	<gui dir="customGUI/">
+
+		
+	</gui>
+</root>
