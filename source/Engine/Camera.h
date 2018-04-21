@@ -12,49 +12,52 @@ https://roguesharp.wordpress.com/2014/07/13/tutorial-5-creating-a-2d-camera-with
 class Camera {
 public:
 	Camera();
-	/*Camera(int viewportWidth, int viewportHeight);
-	Camera(const Vector2& viewport);*/
 	virtual ~Camera();
+
+	//void setLevel(Background* bgMan);
 
 	void setViewport(D3D11_VIEWPORT cameraViewport);
 	void setViewport(int viewportWidth, int viewportHeight);
 	void updateViewport(const Vector2& viewportArea,
 		const Vector2& viewportPosition, bool zoomToFit = false);
 
-
 	float rotation = 0.0f;
 
-	Vector2 viewportPosition;
+	Vector2 viewportPosition = Vector2::Zero;
 	int viewportWidth;
 	int viewportHeight;
 	Vector3 viewportCenter;
 
+	/* Prevents GameObject from leaving viewable screen. */
+	/*void confineToScreen(GameObject* obj);*/
+	/* Returns true if point (in WORLD coords) is on screen. */
 	bool viewContains(const Vector2& point);
-	
+
+	/* Get world coordinates of camera. */
+	const Vector2& getPosition() const;
+	/* Amount screen has moved since last update*/
+	const Vector2& getDelta() const;
 	float getZoom();
-	void setZoomToResolution(int width, int height);
-		
+	void setZoomToResolution(int width = Globals::targetResolution.x,
+		int height = Globals::targetResolution.y);
 	void setZoom(float zoomAmount);
 	void adjustZoom(float amount);
-	/** Move the camera in an X and Y amount based on the cameraMovement param.
-	*	If clampToMap is true the camera will try not to pan outside of the
-	*	bounds of the map. */
-	void moveCamera(Vector2 cameraMovement, bool clampToArea = false);
-	const Vector2 getPosition() const;
 
-	RECT* viewportWorldBoundary();
+	void moveCamera(const Vector2& cameraMovement);
 
-	void centerOn(Vector2 pos, bool clampToArea = false);
+	void centerOn(const Vector2& pos);
 
 	Matrix translationMatrix();
-	Vector2& worldToScreen(Vector2 worldPosition);
-	Vector2* screenToWorldPtr(Vector2 onScreenPosition);
-	Vector2 screenToWorld(Vector2 onScreenPosition);
+	Vector2 worldToScreen(Vector2 worldPosition);
+	Vector2 screenToWorld(Vector2 screenPosition);
+
 private:
 
 	Vector2 position;
+	Vector2 positionDelta;
 
 	float zoom;
-
+	float levelWidth;
+	float levelHeight;
 
 };

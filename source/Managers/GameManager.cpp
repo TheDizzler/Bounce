@@ -17,7 +17,7 @@ GameManager::~GameManager() {
 	if (blendState)
 		delete blendState;
 	showDialog = NULL;
-	menuScreen.reset();
+	//menuScreen.reset();
 	currentScreen = NULL;
 }
 
@@ -56,13 +56,16 @@ bool GameManager::initializeGame(GameEngine* gmngn, HWND hwnd, ComPtr<ID3D11Devi
 	initErrorDialogs();
 
 	guiOverlay.initialize();
-
-	menuScreen.reset(new MenuManager());
+	levelScreen.setGameManager(this);
+	levelScreen.initialize(device);
+	
+	currentScreen = &levelScreen;
+	/*menuScreen.reset(new MenuManager());
 	menuScreen->setGameManager(this);
 	if (!menuScreen->initialize(device))
 		return false;
 
-	currentScreen = menuScreen.get();
+	currentScreen = menuScreen.get();*/
 
 	ShowCursor(false);
 
@@ -113,7 +116,8 @@ void GameManager::reloadGraphicsAssets() {
 	guiFactory.reInitDevice(device, gameEngine->getDeviceContext(), gameEngine->getSpriteBatch());
 
 	mouse.reloadGraphicsAsset(&guiFactory);
-	menuScreen->reloadGraphicsAssets();
+	//menuScreen->reloadGraphicsAssets();
+	levelScreen.reloadGraphicsAssets();
 	guiOverlay.reloadGraphicsAssets();
 	errorDialog->reloadGraphicsAsset();
 	warningDialog->reloadGraphicsAsset();
@@ -132,14 +136,14 @@ void GameManager::update(double deltaTime) {
 
 void GameManager::draw(SpriteBatch* batch) {
 
-	batch->Begin(SpriteSortMode_FrontToBack, blendState->NonPremultiplied());
-	{
+	/*batch->Begin(SpriteSortMode_FrontToBack, blendState->NonPremultiplied());
+	{*/
 		currentScreen->draw(batch);
-		guiOverlay.draw(batch);
-		showDialog->draw(batch);
-		mouse.draw(batch);
-	}
-	batch->End();
+		//guiOverlay.draw(batch);
+		//showDialog->draw(batch);
+		//mouse.draw(batch);
+	/*}
+	batch->End();*/
 }
 
 
@@ -150,7 +154,7 @@ void GameManager::loadLevel(const wchar_t* file) {
 void GameManager::loadMainMenu() {
 
 	lastScreen = currentScreen;
-	currentScreen = menuScreen.get();
+	//currentScreen = menuScreen.get();
 
 }
 
@@ -179,6 +183,10 @@ void GameManager::newController(shared_ptr<Joystick> newStick) {
 
 
 
+ComPtr<ID3D11DeviceContext> GameManager::getDeviceContext() {
+	return gameEngine->getDeviceContext();
+}
+
 vector<ComPtr<IDXGIAdapter>> GameManager::getAdapterList() {
 	return gameEngine->getAdapterList();
 }
@@ -205,12 +213,12 @@ vector<DXGI_MODE_DESC> GameManager::getDisplayModeList(ComPtr<IDXGIOutput> displ
 }
 
 void GameManager::refreshTexture() {
-	menuScreen->refreshTexture();
+	//menuScreen->refreshTexture();
 }
 
 void GameManager::refreshDisplayModeList() {
 
-	menuScreen->refreshDisplayModeList();
+	//menuScreen->refreshDisplayModeList();
 }
 
 //void GameManager::setDisplayMode(DXGI_MODE_DESC displayMode) {

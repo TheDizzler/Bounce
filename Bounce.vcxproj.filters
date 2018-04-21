@@ -201,6 +201,12 @@
     <ClInclude Include="DXTKGui\Effects\TransitionEffects.h">
       <Filter>Header Files\DXTKGui\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="source\Screens\LevelScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\b2DebugDraw.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\pch.cpp">
@@ -310,6 +316,12 @@
     </ClCompile>
     <ClCompile Include="DXTKGui\Effects\TransitionEffects.cpp">
       <Filter>Source Files\DXTKGui\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Screens\LevelScreen.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\b2DebugDraw.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

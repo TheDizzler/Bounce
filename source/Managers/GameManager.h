@@ -5,6 +5,7 @@
 #include "../../DXTKGui/Controllers/Joystick.h"
 #include "../Screens/GUIOverlay.h"
 #include "GFXAssetManager.h"
+#include "../Screens/LevelScreen.h"
 
 #include <CommonStates.h>
 
@@ -41,6 +42,7 @@ public:
 		PlayerSlotNumber slotNumber);
 	void newController(shared_ptr<Joystick> newStick);
 
+	ComPtr<ID3D11DeviceContext> getDeviceContext();
 	vector<ComPtr<IDXGIAdapter> > getAdapterList();
 	vector<ComPtr<IDXGIOutput> > getDisplayList();
 	vector<ComPtr<IDXGIOutput> > getDisplayListFor(size_t displayIndex);
@@ -97,7 +99,8 @@ private:
 
 	Screen* currentScreen = 0;
 	Screen* lastScreen = 0;
-	unique_ptr<MenuManager> menuScreen;
+	//unique_ptr<MenuManager> menuScreen;
+	LevelScreen levelScreen;
 
 
 	GameEngine* gameEngine;
