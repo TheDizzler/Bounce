@@ -9,10 +9,15 @@
 
 class b2DebugDraw : public b2Draw {
 public:
-	b2DebugDraw(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext);
+	b2DebugDraw();
 	virtual ~b2DebugDraw();
 
+	void initialize(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext);
+
+	void update(double deltaTime);
 	void draw(b2World* world);
+
+	void drawGrid();
 
 	virtual void DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) override;
 	virtual void DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) override;
@@ -22,7 +27,7 @@ public:
 	virtual void DrawTransform(const b2Transform& xf) override;
 	virtual void DrawPoint(const b2Vec2& p, float32 size, const b2Color& color) override;
 
-
+	b2Vec2 goalVerts[4];
 private:
 	ComPtr<ID3D11Device> device;
 	ComPtr<ID3D11DeviceContext> deviceContext;

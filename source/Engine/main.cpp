@@ -9,8 +9,8 @@ LPCTSTR wndClassName = L"Bounce";
 HWND hwnd;
 
 
-int Globals::WINDOW_WIDTH = 800;
-int Globals::WINDOW_HEIGHT = 600;
+int Globals::WINDOW_WIDTH = 1280;
+int Globals::WINDOW_HEIGHT = 960;
 int Globals::vsync_enabled = 0;
 bool Globals::FULL_SCREEN = false;
 

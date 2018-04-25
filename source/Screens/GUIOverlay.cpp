@@ -11,8 +11,13 @@ void GUIOverlay::initialize() {
 	fpsLabel.reset(guiFactory.createTextLabel(Vector2(float(Globals::WINDOW_WIDTH - 250), 20),
 		L"", "Default Font", true));
 	fpsLabel->setTint(Colors::White);
-	fpsLabel->setScale(Vector2(.5, .5));
+	//fpsLabel->setScale(Vector2(.5, .5));
 	fpsLabel->setLayerDepth(1);
+
+	mouseCoords.reset(guiFactory.createTextLabel(Vector2(float(Globals::WINDOW_WIDTH - 250), 120),
+		L"", "Default Font", false));
+	mouseCoords->setTint(Colors::White);
+	mouseCoords->setLayerDepth(1);
 }
 
 
@@ -44,13 +49,19 @@ void GUIOverlay::update(double deltaTime) {
 		fpsUpdateTime = 0;
 		frameCount = 0;
 	}
-
+	/*Vector3 worldCoords = camera.screenToWorld(mouse.getPosition());
+	wostringstream mss;
+	mss << "Screen: " << mouse.getPosition().x << ", " << mouse.getPosition().y << endl;
+	mss << "World: " << worldCoords.x << ", " << worldCoords.y << ", " << worldCoords.z;
+	mouseCoords->setText(mss.str());
+	mouseCoords->update(deltaTime);*/
 }
 
 void GUIOverlay::draw(SpriteBatch* batch) {
 
 
 	fpsLabel->draw(batch);
+	mouseCoords->draw(batch);
 }
 
 

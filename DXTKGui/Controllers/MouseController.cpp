@@ -167,3 +167,7 @@ void MouseController::resetPressed() {
 	lastState.leftButton = true;
 }
 
+Vector2 MouseController::getLastPosition() const {
+	return Vector2(lastState.x, lastState.y);
+}
+

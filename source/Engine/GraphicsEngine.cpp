@@ -3,7 +3,7 @@
 #include "../Engine/GameEngine.h"
 #include <sstream>
 
-Camera camera;
+Camera3D camera;
 
 extern "C" {  _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001; }
 
@@ -58,7 +58,7 @@ bool GraphicsEngine::initD3D(HWND h) {
 
 	initializeViewport();
 
-	camera.setViewport(mainViewport);
+	camera.init(mainViewport, .25 * XM_PI, 1.0f, 1000.0f);
 
 	// create SpriteBatch
 	batch.reset(new SpriteBatch(deviceContext.Get()));
@@ -151,7 +151,7 @@ bool GraphicsEngine::initializeAdapter(int adapterIndex) {
 	swapChainDesc.BufferDesc = selectedDisplayMode;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.OutputWindow = hwnd;
-	swapChainDesc.SampleDesc.Count = 4; // how many multisamples
+	swapChainDesc.SampleDesc.Count = 1; // how many multisamples
 										// 1 = turn multisampling off.
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
@@ -188,8 +188,9 @@ bool GraphicsEngine::initializeAdapter(int adapterIndex) {
 
 	verifyAdapter(device);
 
-	CD3D11_RASTERIZER_DESC rsDesc(D3D11_FILL_SOLID, D3D11_CULL_BACK, FALSE,
-		0, 0.f, 0.f, TRUE, TRUE, TRUE, FALSE);
+	CD3D11_RASTERIZER_DESC rsDesc(D3D11_FILL_WIREFRAME, D3D11_CULL_BACK, FALSE,
+		D3D11_DEFAULT_DEPTH_BIAS, D3D11_DEFAULT_DEPTH_BIAS_CLAMP, D3D11_DEFAULT_SLOPE_SCALED_DEPTH_BIAS,
+		TRUE, TRUE, TRUE, FALSE);
 	if (GameEngine::reportError(
 		device->CreateRasterizerState(&rsDesc, rasterState.GetAddressOf()),
 		L"Error creating RasterizerState.", L"ERROR")) {
@@ -202,7 +203,7 @@ bool GraphicsEngine::initializeAdapter(int adapterIndex) {
 
 bool GraphicsEngine::initializeRenderTarget() {
 
-	///** **** Create our Render Target **** **/
+	///** **** Create a Render Target **** **/
 	ComPtr<ID3D11Texture2D> backBufferPtr;
 	if (GameEngine::reportError(
 		swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*) backBufferPtr.GetAddressOf()),
@@ -211,13 +212,44 @@ bool GraphicsEngine::initializeRenderTarget() {
 
 
 	if (GameEngine::reportError(
-		device->CreateRenderTargetView(backBufferPtr.Get(),
-			NULL, renderTargetView.GetAddressOf()),
+		device->CreateRenderTargetView(
+			backBufferPtr.Get(), NULL, renderTargetView.GetAddressOf()),
 		L"Could not create render target view.", L"ERROR"))
 		return false;
 
+	// Create depth stencil texture
+	D3D11_TEXTURE2D_DESC descDepth;
+	ZeroMemory(&descDepth, sizeof(descDepth));
+	descDepth.Width = selectedDisplayMode.Width;
+	descDepth.Height = selectedDisplayMode.Height;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = 0;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+	if (GameEngine::reportError(
+		device->CreateTexture2D(&descDepth, nullptr, depthStencil.GetAddressOf()),
+		L"Could not CreateTexture2D (depthStencil creation error).", L"ERROR")) {
+		return false;
+	}
 
-	deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), nullptr);
+	// Create the depth stencil view
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+	ZeroMemory(&descDSV, sizeof(descDSV));
+	descDSV.Format = descDepth.Format;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Texture2D.MipSlice = 0;
+	if (GameEngine::reportError(
+		device->CreateDepthStencilView(depthStencil.Get(), &descDSV, depthStencilView.GetAddressOf()),
+		L"Could not CreateTexture2D (depthStencil creation error).", L"ERROR")) {
+		return false;
+	}
+
+	deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 
 	return true;
 }

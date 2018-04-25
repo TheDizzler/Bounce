@@ -20,6 +20,7 @@ public:
 private:
 
 	unique_ptr<TextLabel> fpsLabel;
+	unique_ptr<TextLabel> mouseCoords;
 
 	vector<unique_ptr<Dialog>> lostJoyDialogs;
 	vector<int> displayingLostJoys;

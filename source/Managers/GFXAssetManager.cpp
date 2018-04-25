@@ -120,40 +120,40 @@ bool GFXAssetManager::getGFXAssetsFromXML(ComPtr<ID3D11Device> device) {
 
 	string gfxDir = assetsDir + gfxAssetsNode.attribute("dir").as_string();
 
-	//for (xml_node spriteNode : gfxAssetsNode.children("sprite")) {
+	for (xml_node spriteNode : gfxAssetsNode.children("sprite")) {
 
-	//	string file_s = gfxDir + spriteNode.attribute("file").as_string();
-	//	const char_t* file = file_s.c_str();
-	//	const char_t* name = spriteNode.attribute("name").as_string();
-	//	string check = name;
+		string file_s = gfxDir + spriteNode.attribute("file").as_string();
+		const char_t* file = file_s.c_str();
+		const char_t* name = spriteNode.attribute("name").as_string();
+		string check = name;
 
-	//	Vector2 origin = Vector2(-1000, -1000);
-	//	xml_node originNode = spriteNode.child("origin");
-	//	if (originNode) {
-	//		origin.x = originNode.attribute("x").as_int();
-	//		origin.y = originNode.attribute("y").as_int();
-	//	}
+		Vector2 origin = Vector2(-1000, -1000);
+		xml_node originNode = spriteNode.child("origin");
+		if (originNode) {
+			origin.x = originNode.attribute("x").as_int();
+			origin.y = originNode.attribute("y").as_int();
+		}
 
-	//	unique_ptr<GraphicsAsset> gfxAsset = make_unique<GraphicsAsset>();
-	//	if (!gfxAsset->load(device, name, StringHelper::convertCharStarToWCharT(file), origin)) {
-	//		wstringstream wss;
-	//		wss << "Unable to load texture file: " << file;
-	//		//MessageBox(0, wss.str().c_str(), L"Critical error", MB_OK);
-	//		GameEngine::errorMessage(wss.str());
-	//		return false;
-	//	}
+		unique_ptr<GraphicsAsset> gfxAsset = make_unique<GraphicsAsset>();
+		if (!gfxAsset->load(device, name, StringHelper::convertCharStarToWCharT(file), origin)) {
+			wstringstream wss;
+			wss << "Unable to load texture file: " << file;
+			//MessageBox(0, wss.str().c_str(), L"Critical error", MB_OK);
+			GameEngine::errorMessage(wss.str());
+			return false;
+		}
 
-	//	if (spriteNode.attribute("set")) {
-	//		string setName = spriteNode.attribute("set").as_string();
-	//		if (setMap.find(setName) == setMap.end()) {
-	//			// new set
-	//			setMap[setName] = make_shared<AssetSet>(setName.c_str());
-	//		}
-	//		setMap[setName]->addAsset(check, move(gfxAsset));
+		if (spriteNode.attribute("set")) {
+			string setName = spriteNode.attribute("set").as_string();
+			if (setMap.find(setName) == setMap.end()) {
+				// new set
+				setMap[setName] = make_unique<AssetSet>(setName.c_str());
+			}
+			setMap[setName]->addAsset(check, move(gfxAsset));
 
-	//	} else
-	//		assetMap[check] = move(gfxAsset);
-	//}
+		} else
+			assetMap[check] = move(gfxAsset);
+	}
 
 	for (xml_node spritesheetNode : gfxAssetsNode.children("spritesheet")) {
 	/*for (xml_node spritesheetNode = gfxAssetsNode.child("spritesheet");

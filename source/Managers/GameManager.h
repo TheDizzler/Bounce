@@ -117,6 +117,7 @@ private:
 	static unique_ptr<PromptDialog> warningDialog;
 	static Dialog* showDialog;
 
+	bool waiting = true;
 
 };
 

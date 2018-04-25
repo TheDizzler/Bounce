@@ -2,7 +2,7 @@
 <root game="PsiCom Security" xml="AssetManifest" dir="assets/">
 
 	<gfx dir="gfx/">
-		
+		<sprite name="knocker" file="knocker.dds" />
 	</gfx>
 
 

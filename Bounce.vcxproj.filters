@@ -67,6 +67,12 @@
     <Filter Include="Header Files\DXTKGui\Effects">
       <UniqueIdentifier>{4edb4b0f-95c5-4131-ba92-2e85dadd6c61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObjects">
+      <UniqueIdentifier>{b9ddeebf-e068-4a65-aba5-34c5d8ee09f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects">
+      <UniqueIdentifier>{593f156d-fbff-4696-852c-8402d280d3a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -86,9 +92,6 @@
     </ClInclude>
     <ClInclude Include="source\pch.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\Camera.h">
-      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\GameEngine.h">
       <Filter>Header Files\Engine</Filter>
@@ -207,13 +210,22 @@
     <ClInclude Include="source\Engine\b2DebugDraw.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="source\Engine\Camera3D.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\GameObjects\GameObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="source\GameObjects\Knocker.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="source\GameObjects\Ball.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\pch.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\Camera.cpp">
-      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\GameEngine.cpp">
       <Filter>Source Files\Engine</Filter>
@@ -322,6 +334,18 @@
     </ClCompile>
     <ClCompile Include="source\Engine\b2DebugDraw.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Camera3D.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameObjects\GameObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameObjects\Knocker.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameObjects\Ball.cpp">
+      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

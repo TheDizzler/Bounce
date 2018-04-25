@@ -1,10 +1,15 @@
 #pragma once
 
-#include "Box2D.h"
+//#include "Box2D.h"
 
-#include "../../DXTKGui/BaseGraphics/screen.h"
+//#include "../../DXTKGui/BaseGraphics/screen.h"
 #include "../Engine/b2DebugDraw.h"
 
+
+#include "../GameObjects/Knocker.h"
+#include "../GameObjects/Ball.h"
+
+class GameManager;
 
 
 class LevelScreen : public Screen {
@@ -29,7 +34,7 @@ private:
 	GameManager* gameManager;
 
 	unique_ptr<b2World> world;
-	unique_ptr<b2DebugDraw> debugDraw;
+	b2DebugDraw debugDraw;
 
 	double timeSinceLastStep = 0;
 	float32 timeStep = 1.0f / 60.0f;
@@ -38,5 +43,15 @@ private:
 
 	/* Never call delete or free on a body, fixture, or joint! Use world->DestroyBody() if needed. */
 	b2Body* borderWall;
-	b2Body* body;
+
+
+	Knocker knockerL/*, knockerR*/;
+	Ball ball;
+
+	unique_ptr<RectangleFrame> goal;
+
+	//b2Vec2 goalVerts[4];
+
+	Vector2 scale = Vector2(100, 100);
+
 };

@@ -12,14 +12,14 @@
 #include "CommonStates.h"
 
 #include "../globals.h"
-#include "Camera.h"
+#include "Camera3D.h"
 
 using namespace std;
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
 
-extern Camera camera;
+extern Camera3D camera;
 
 
 class GraphicsEngine {
@@ -41,7 +41,7 @@ public:
 	bool setAdapter(size_t adapterIndex);
 	bool changeDisplayMode(size_t newDisplayModeIndex);
 	bool setFullScreen(bool isFullScreen);
-	/* Imcomplete: only sets main viewport. */
+	/* Does nothing. */
 	void setViewport(int xPos, int yPos, int width, int height);
 	/* Call when game loses focus. */
 	bool stopFullScreen();
@@ -93,6 +93,8 @@ protected:
 	ComPtr<ID3D11DeviceContext> deviceContext;
 	/* The backbuffer that gets drawn to. */
 	ComPtr<ID3D11RenderTargetView> renderTargetView;
+	ComPtr<ID3D11DepthStencilView> depthStencilView;
+	ComPtr<ID3D11Texture2D> depthStencil;
 
 	D3D11_RECT scissorRECTs[1];
 

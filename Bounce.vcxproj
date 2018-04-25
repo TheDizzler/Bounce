@@ -186,11 +186,14 @@
     <ClInclude Include="DXTKGui\GUIFactory.h" />
     <ClInclude Include="DXTKGui\StringHelper.h" />
     <ClInclude Include="source\Engine\b2DebugDraw.h" />
-    <ClInclude Include="source\Engine\Camera.h" />
+    <ClInclude Include="source\Engine\Camera3D.h" />
     <ClInclude Include="source\Engine\GameEngine.h" />
     <ClInclude Include="source\Engine\GraphicsEngine.h" />
     <ClInclude Include="source\Engine\Input.h" />
     <ClInclude Include="source\Engine\PlayerSlot.h" />
+    <ClInclude Include="source\GameObjects\Ball.h" />
+    <ClInclude Include="source\GameObjects\GameObject.h" />
+    <ClInclude Include="source\GameObjects\Knocker.h" />
     <ClInclude Include="source\globals.h" />
     <ClInclude Include="source\Managers\GameManager.h" />
     <ClInclude Include="source\Managers\GFXAssetManager.h" />
@@ -226,12 +229,15 @@
     <ClCompile Include="DXTKGui\Effects\TransitionEffects.cpp" />
     <ClCompile Include="DXTKGui\GUIFactory.cpp" />
     <ClCompile Include="source\Engine\b2DebugDraw.cpp" />
-    <ClCompile Include="source\Engine\Camera.cpp" />
+    <ClCompile Include="source\Engine\Camera3D.cpp" />
     <ClCompile Include="source\Engine\GameEngine.cpp" />
     <ClCompile Include="source\Engine\GraphicsEngine.cpp" />
     <ClCompile Include="source\Engine\Input.cpp" />
     <ClCompile Include="source\Engine\main.cpp" />
     <ClCompile Include="source\Engine\PlayerSlot.cpp" />
+    <ClCompile Include="source\GameObjects\Ball.cpp" />
+    <ClCompile Include="source\GameObjects\GameObject.cpp" />
+    <ClCompile Include="source\GameObjects\Knocker.cpp" />
     <ClCompile Include="source\Managers\GameManager.cpp" />
     <ClCompile Include="source\Managers\GFXAssetManager.cpp" />
     <ClCompile Include="source\Managers\MenuManager.cpp" />
@@ -253,7 +259,9 @@
     <ClCompile Include="source\Screens\LevelScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="assets\AssetManifest.xml" />
+    <Xml Include="assets\AssetManifest.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="DXTKGui\assets\DXTKGuiManifest.xml" />
   </ItemGroup>
   <ItemGroup>

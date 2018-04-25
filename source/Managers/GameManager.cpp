@@ -1,4 +1,3 @@
-#include "../pch.h"
 #include "GameManager.h"
 #include "../Engine/GameEngine.h"
 
@@ -58,7 +57,7 @@ bool GameManager::initializeGame(GameEngine* gmngn, HWND hwnd, ComPtr<ID3D11Devi
 	guiOverlay.initialize();
 	levelScreen.setGameManager(this);
 	levelScreen.initialize(device);
-	
+
 	currentScreen = &levelScreen;
 	/*menuScreen.reset(new MenuManager());
 	menuScreen->setGameManager(this);
@@ -127,8 +126,11 @@ void GameManager::reloadGraphicsAssets() {
 void GameManager::update(double deltaTime) {
 	if (showDialog->isOpen())
 		showDialog->update(deltaTime);
-	else
-		currentScreen->update(deltaTime);
+	else {
+		if (!waiting)
+			currentScreen->update(deltaTime);
+
+	}
 	guiOverlay.update(deltaTime);
 
 }
@@ -136,14 +138,19 @@ void GameManager::update(double deltaTime) {
 
 void GameManager::draw(SpriteBatch* batch) {
 
-	/*batch->Begin(SpriteSortMode_FrontToBack, blendState->NonPremultiplied());
-	{*/
+	batch->Begin(SpriteSortMode_FrontToBack, blendState->NonPremultiplied()/*, NULL, NULL,
+		NULL, NULL, camera.getTransformMatrix()*/);
+	{
 		currentScreen->draw(batch);
-		//guiOverlay.draw(batch);
-		//showDialog->draw(batch);
-		//mouse.draw(batch);
-	/*}
-	batch->End();*/
+	}
+	batch->End();
+	batch->Begin(SpriteSortMode_FrontToBack, blendState->NonPremultiplied());
+	{
+		guiOverlay.draw(batch);
+		showDialog->draw(batch);
+		mouse.draw(batch);
+	}
+	batch->End();
 }
 
 
@@ -174,10 +181,15 @@ void GameManager::exit() {
 
 void GameManager::controllerRemoved(ControllerSocketNumber controllerSocket,
 	PlayerSlotNumber slotNumber) {
+
+
+	waiting = true;
 	currentScreen->controllerRemoved(controllerSocket, slotNumber);
 }
 
 void GameManager::newController(shared_ptr<Joystick> newStick) {
+
+	waiting = false;
 	currentScreen->newController(newStick);
 }
 

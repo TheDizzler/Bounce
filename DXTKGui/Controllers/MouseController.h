@@ -59,6 +59,9 @@ public:
 		Seems none functional. */
 	void resetPressed();
 
+
+	Vector2 getLastPosition() const;
+
 private:
 
 	HWND hwnd;

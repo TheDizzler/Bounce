@@ -126,8 +126,9 @@ void GameEngine::update(double deltaTime) {
 
 
 void GameEngine::render() {
-
+	
 	deviceContext->ClearRenderTargetView(renderTargetView.Get(), Colors::Black);
+	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
 	game.draw(batch.get());
 	swapChain->Present(0, 0);
 }
